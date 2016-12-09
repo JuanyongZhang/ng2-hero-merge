@@ -1,7 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { SessionStorage } from 'ng2-webstorage';
+import { Component } from '@angular/core';
 
-import { HeroService } from './services/hero.service';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +7,7 @@ import { HeroService } from './services/hero.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'NG2 Heroe Merge';
+  title = 'NG2 Heroes Forge';
 
   constructor() {
   }
