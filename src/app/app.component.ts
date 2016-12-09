@@ -8,17 +8,10 @@ import { HeroService } from './services/hero.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   title = 'NG2 Heroe Merge';
-  @SessionStorage('heroes_api_key') apikey: string;
 
-  constructor(private heroService: HeroService) {
-    if (!this.apikey) {
-      this.heroService.getHeroesApiKey()
-        .then(apikey => this.apikey = apikey);
-    }
+  constructor() {
   }
 
-  ngOnInit() {
-  }
 }

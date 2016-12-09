@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Headers, Http, Response } from '@angular/http';
+import { Headers, Http, Response, RequestOptionsArgs, URLSearchParams, Jsonp } from '@angular/http';
 import { SessionStorage } from 'ng2-webstorage';
+import { Observable } from 'rxjs/Rx';
 
 
 import 'rxjs/add/operator/toPromise';
@@ -14,11 +15,34 @@ export class HeroService {
   private heroesApiKeyUrl = 'https://hero-merge.herokuapp.com/getApiKey';  // URL to web api
   @SessionStorage('heroes_api_key') private apiKey: string;
 
-  constructor(private http: Http) { }
+  constructor(private http: Http,
+    private jsonp: Jsonp) { }
+
+  obtainHeroesApiKey(): Observable<string> {
+    if (this.apiKey) {
+      return Observable.of(this.apiKey);
+    }
+
+    return this.http
+      .get(this.heroesApiKeyUrl)
+      .map(response => {
+        this.apiKey = response.json().apiKey as string;
+        return this.apiKey;
+      });
+  }
+
+  obtainHeroes(): Observable<Hero[]> {
+    return this.obtainHeroesApiKey()
+      .flatMap((apiKey) =>
+        this.http
+          .get(this.getHeroServiceURL())
+          .map(response => response.json() as Hero[])
+      );
+  }
 
   getHeroesApiKey(): Promise<string> {
     return this.http
-      .get(this.heroesApiKeyUrl)
+      .get(this.heroesApiKeyUrl, this.generateCommonRequestOptionsArgs())
       .toPromise()
       .then(response => response.json().apiKey as string)
       .catch(this.handleError);
@@ -91,4 +115,14 @@ export class HeroService {
     console.error('An error occurred', error);
     return Promise.reject(error.message || error);
   }
+
+
+  private generateCommonRequestOptionsArgs(): RequestOptionsArgs {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    return <RequestOptionsArgs>{
+      headers: headers
+    };
+  }
+
 }
