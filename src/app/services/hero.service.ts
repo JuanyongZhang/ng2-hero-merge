@@ -52,7 +52,7 @@ export class HeroService {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
-    let url = `${this.heroesUrl}/${hero.id}`;
+    let url = `${this.getHeroServiceURL()}/${hero.id}`;
 
     return this.http
       .delete(url, { headers: headers })
@@ -67,7 +67,7 @@ export class HeroService {
     });
 
     return this.http
-      .post(this.heroesUrl, JSON.stringify(hero), { headers: headers })
+      .post(this.getHeroServiceURL(), JSON.stringify(hero), { headers: headers })
       .toPromise()
       .then(res => res.json().data)
       .catch(this.handleError);
@@ -78,7 +78,7 @@ export class HeroService {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
-    let url = `${this.heroesUrl}/${hero.id}`;
+    let url = `${this.getHeroServiceURL()}/${hero.id}`;
 
     return this.http
       .put(url, JSON.stringify(hero), { headers: headers })
