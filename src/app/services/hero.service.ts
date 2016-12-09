@@ -11,27 +11,17 @@ import { Hero } from '../domains/hero';
 
 @Injectable()
 export class HeroService {
-  // private heroesUrl = 'app/heroes';  // URL to web api
-  
-  private heroesUrl = 'https://hero-merge.herokuapp.com/22989604/heroes';  // URL to web api
   private heroesApiKeyUrl = 'https://hero-merge.herokuapp.com/getApiKey';  // URL to web api
   @SessionStorage('heroes_api_key') private apiKey: string;
 
   constructor(private http: Http) { }
 
-  getHeroesApiKey(): Promise<string>{
-        return this.http
+  getHeroesApiKey(): Promise<string> {
+    return this.http
       .get(this.heroesApiKeyUrl)
       .toPromise()
       .then(response => response.json().apiKey as string)
       .catch(this.handleError);
-
-    // return this.http.get(this.heroesApiKeyUrl)
-    //   .map(res => {
-    //     console.log(res.json().apiKey);
-    //     this.apiKey = res.json().apiKey;
-    //     return res.json().apiKey;
-    //   });
   }
 
   getHeroServiceURL(): string {
@@ -44,13 +34,6 @@ export class HeroService {
       .toPromise()
       .then(response => response.json() as Hero[])
       .catch(this.handleError);
-    // this.getHeroesApiKey()
-    //         // using .flatmap() to exted .map() for cascading http get method
-    //         .flatMap(apiKey => this.http.get(`https://hero-merge.herokuapp.com/${apiKey}/heroes`))
-    //         .toPromise()
-    //         .then(response => response.json().data as Hero[])
-    //         .catch(this.handleError);
-
   }
 
   getHero(id: number): Promise<Hero> {
