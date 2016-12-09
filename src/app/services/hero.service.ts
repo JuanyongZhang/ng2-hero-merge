@@ -50,54 +50,41 @@ export class HeroService {
       .map(heroes => heroes.find(hero => hero.id === id));
   }
 
-  // save(hero: Hero): Promise<Hero> {
-  //   if (hero.id) {
-  //     return this.put(hero);
-  //   }
-  //   return this.post(hero);
-  // }
+  save(hero: Hero): Observable<Hero> {
+    if (hero.id) {
+      return this.put(hero);
+    }
+    return this.post(hero);
+  }
 
-  // delete(hero: Hero): Promise<Response> {
-  //   let headers = new Headers();
-  //   headers.append('Content-Type', 'application/json');
+  delete(hero: Hero): Observable<Response> {
+    let url = `${this.getHeroServiceURL()}/${hero.id}`;
+    return this.http
+      .delete(url, this.generateCommonRequestOptionsArgs());
+  }
 
-  //   let url = `${this.getHeroServiceURL()}/${hero.id}`;
+  // Add new Hero
+  private post(hero: Hero): Observable<Hero> {
+    return this.http
+      .post(this.getHeroServiceURL(), JSON.stringify(hero), this.generateCommonRequestOptionsArgs())
+      .map(res => res.json().data);
+  }
 
-  //   return this.http
-  //     .delete(url, { headers: headers })
-  //     .toPromise()
-  //     .catch(this.handleError);
-  // }
+  // Update existing Hero
+  private put(hero: Hero): Observable<Hero> {
 
-  // // Add new Hero
-  // private post(hero: Hero): Promise<Hero> {
-  //   let headers = new Headers({
-  //     'Content-Type': 'application/json'
-  //   });
+    let url = `${this.getHeroServiceURL()}/${hero.id}`;
 
-  //   return this.http
-  //     .post(this.getHeroServiceURL(), JSON.stringify(hero), { headers: headers })
-  //     .toPromise()
-  //     .then(res => res.json().data)
-  //     .catch(this.handleError);
-  // }
+    return this.http
+      .put(url, JSON.stringify(hero), this.generateCommonRequestOptionsArgs())
+      .map(() => hero);
+  }
 
-  // // Update existing Hero
-  // private put(hero: Hero): Promise<Hero> {
-  //   let headers = new Headers();
-  //   headers.append('Content-Type', 'application/json');
-
-  //   let url = `${this.getHeroServiceURL()}/${hero.id}`;
-
-  //   return this.http
-  //     .put(url, JSON.stringify(hero), { headers: headers })
-  //     .toPromise()
-  //     .then(() => hero)
-  //     .catch(this.handleError);
-  // }
-
-  // private handleError(error: any): Promise<any> {
-  //   console.error('An error occurred', error);
-  //   return Promise.reject(error.message || error);
-  // }
+  generateCommonRequestOptionsArgs(): RequestOptionsArgs {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    return <RequestOptionsArgs>{
+      headers: headers
+    };
+  }
 }

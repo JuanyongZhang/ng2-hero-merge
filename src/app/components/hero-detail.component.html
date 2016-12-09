@@ -1,3 +1,28 @@
-<p>
-  hero-detail works!
-</p>
+<div *ngIf="hero">
+  <h2>{{hero.name}} details!</h2>
+  <div>
+    <label>id: </label>{{hero.id}}</div>
+  <div>
+    <label>name: </label>
+    <input [(ngModel)]="hero.hero_name" placeholder="hero_name" />
+  </div>
+  <div>
+    <label>real name: </label>
+    <input [(ngModel)]="hero.real_name" placeholder="real_name" />
+  </div>
+  <div>
+    <label>gender: </label>
+    <input [(ngModel)]="hero.gender" placeholder="gender" />
+  </div>
+  <div>
+    <label>powers: </label>
+    <input [(ngModel)]="hero.powers" placeholder="powers" />
+  </div>
+  <div>
+    <label>weaknesses: </label>
+    <input [(ngModel)]="hero.weaknesses" placeholder="weaknesses" />
+  </div>
+  
+  <button (click)="goBack()">Back</button>
+  <button (click)="save()">Save</button>
+</div>
