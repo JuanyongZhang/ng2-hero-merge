@@ -52,7 +52,7 @@ export class HeroService {
 
   save(hero: Hero): Observable<Hero> {
     if (hero.id) {
-      return this.put(hero);
+      return this.patch(hero);
     }
     return this.post(hero);
   }
@@ -71,13 +71,17 @@ export class HeroService {
   }
 
   // Update existing Hero
-  private put(hero: Hero): Observable<Hero> {
+  private patch(hero: Hero): Observable<Hero> {
 
     let url = `${this.getHeroServiceURL()}/${hero.id}`;
 
     return this.http
-      .put(url, JSON.stringify(hero), this.generateCommonRequestOptionsArgs())
+      .patch(url, JSON.stringify(hero), this.generateCommonRequestOptionsArgs())
       .map(() => hero);
+  }
+
+  public mergeHeroes(heroes: Hero[]): Hero {
+    return new Hero();
   }
 
   generateCommonRequestOptionsArgs(): RequestOptionsArgs {

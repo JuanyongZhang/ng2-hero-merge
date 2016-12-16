@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import * as Collections from 'typescript-collections';
 
 import { Hero } from '../domains/hero';
 import { HeroService } from '../services/hero.service';
@@ -12,7 +13,8 @@ import { HeroService } from '../services/hero.service';
 })
 export class HeroesComponent implements OnInit {
   heroes: Hero[];
-  selectedHero: Hero;
+  selectedHeroes = new Collections.LinkedList<Hero>();
+  newHero: Hero;
   addingHero = false;
   error: any;
 
@@ -28,7 +30,7 @@ export class HeroesComponent implements OnInit {
 
   addHero(): void {
     this.addingHero = true;
-    this.selectedHero = null;
+    this.selectedHeroes.clear();
   }
 
   close(savedHero: Hero): void {
@@ -42,7 +44,7 @@ export class HeroesComponent implements OnInit {
       .delete(hero)
       .subscribe(res => {
         this.heroes = this.heroes.filter(h => h !== hero);
-        if (this.selectedHero === hero) { this.selectedHero = null; }
+        this.selectedHeroes.clear();
       });
   }
 
@@ -51,12 +53,27 @@ export class HeroesComponent implements OnInit {
   }
 
   onSelect(hero: Hero): void {
-    this.selectedHero = hero;
     this.addingHero = false;
+    if (!this.selectedHeroes.contains(hero)) {
+      if (this.selectedHeroes.size() > 1) {
+        let el = this.selectedHeroes.first();
+        this.selectedHeroes.removeElementAtIndex(0);
+        console.log(`dequeuing : ${el.hero_name}`);
+      }
+      this.selectedHeroes.add(hero);
+    }
   }
 
-  gotoDetail(): void {
-    this.router.navigate(['/detail', this.selectedHero.id]);
+
+  viewDetail(hero: Hero): void {
+    this.router.navigate(['/detail', hero.id]);
+  }
+
+  mergeHeroes(): void {
+    this.selectedHeroes.forEach(hero => {
+      console.log(hero);
+    });
+    this.newHero = this.heroService.mergeHeroes(this.selectedHeroes.toArray());
   }
 }
 

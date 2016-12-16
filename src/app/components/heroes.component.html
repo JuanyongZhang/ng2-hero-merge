@@ -1,10 +1,11 @@
 <h2>My Heroes</h2>
 <ul class="heroes">
-  <li *ngFor="let hero of heroes" (click)="onSelect(hero)" [class.selected]="hero === selectedHero">
+  <li *ngFor="let hero of heroes" (click)="onSelect(hero)" [class.selected]="selectedHeroes.contains(hero)">
     <span class="hero-element">
       <span class="badge">{{hero.id}}</span> {{hero.hero_name}}
     </span>
     <button class="delete-button" (click)="deleteHero(hero, $event)">Delete</button>
+    <button class="detail-button" (click)="viewDetail(hero)">Detail</button>
   </li>
 </ul>
 
@@ -14,9 +15,9 @@
   <app-hero-detail (close)="close($event)"></app-hero-detail>
 </div>
 
-<div *ngIf="selectedHero">
+<div *ngIf="selectedHeroes.size() == 2">
   <h2>
-    {{selectedHero.hero_name | uppercase}} is my hero
+    Merging "{{selectedHeroes.elementAtIndex(0).hero_name}}" with "{{selectedHeroes.elementAtIndex(1).hero_name}}"
   </h2>
-  <button (click)="gotoDetail()">View Details</button>
+  <button (click)="mergeHeroes()">Merge</button>
 </div>
