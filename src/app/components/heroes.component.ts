@@ -70,10 +70,8 @@ export class HeroesComponent implements OnInit {
   }
 
   mergeHeroes(): void {
-    this.selectedHeroes.forEach(hero => {
-      console.log(hero);
-    });
-    this.newHero = this.heroService.mergeHeroes(this.selectedHeroes.toArray());
+    console.log('Merge heroes:', this.selectedHeroes);
+    let heroMerge = this.heroService.mergeHeroes(this.selectedHeroes.toArray());
   }
 }
 

@@ -9,6 +9,8 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 
 import { Hero } from '../domains/hero';
+import { HeroMerge } from '../domains/hero-merge';
+
 
 @Injectable()
 export class HeroService {
@@ -80,8 +82,17 @@ export class HeroService {
       .map(() => hero);
   }
 
-  public mergeHeroes(heroes: Hero[]): Hero {
-    return new Hero();
+  public mergeHeroes(heroes: Hero[]): HeroMerge {
+    let heroMerge: HeroMerge = new HeroMerge();
+    heroes.forEach(hero => {
+      hero.weaknesses.filter(weakness => heroMerge.weaknesses.indexOf(weakness) === -1)
+        .forEach(weakness => { heroMerge.weaknesses.push(weakness); });
+      hero.powers.filter(power => heroMerge.powerOptions.indexOf(power) === -1)
+        .forEach(power => { heroMerge.powerOptions.push(power); });
+      heroMerge.attributeOptions.push(hero.attributes);
+    });
+    console.log(heroMerge);
+    return heroMerge;
   }
 
   generateCommonRequestOptionsArgs(): RequestOptionsArgs {
