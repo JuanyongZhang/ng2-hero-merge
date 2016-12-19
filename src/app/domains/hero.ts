@@ -6,7 +6,7 @@ export class Hero {
   hero_name: string;
   real_name: string;
   gender: string;
-  attributes: Attributes;
+  attributes: Attributes = new Attributes();
   powers: string[];
   weaknesses: string[];
 }

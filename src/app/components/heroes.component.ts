@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import * as Collections from 'typescript-collections';
 
 import { Hero } from '../domains/hero';
+import { HeroMerge } from '../domains/hero-merge';
+
 import { HeroService } from '../services/hero.service';
 
 
@@ -15,6 +17,7 @@ export class HeroesComponent implements OnInit {
   heroes: Hero[];
   selectedHeroes = new Collections.LinkedList<Hero>();
   newHero: Hero;
+  heroMerge: HeroMerge;
   addingHero = false;
   error: any;
 
@@ -71,7 +74,7 @@ export class HeroesComponent implements OnInit {
 
   mergeHeroes(): void {
     console.log('Merge heroes:', this.selectedHeroes);
-    let heroMerge = this.heroService.mergeHeroes(this.selectedHeroes.toArray());
+    this.heroMerge = this.heroService.mergeHeroes(this.selectedHeroes.toArray());
   }
 }
 

@@ -20,4 +20,5 @@
     Merging "{{selectedHeroes.elementAtIndex(0).hero_name}}" with "{{selectedHeroes.elementAtIndex(1).hero_name}}"
   </h2>
   <button (click)="mergeHeroes()">Merge</button>
+  <app-hero-merge (close)="close($event)" [heroMerge]="heroMerge"></app-hero-merge>
 </div>

@@ -22,7 +22,32 @@
     <label>weaknesses: </label>
     <input [(ngModel)]="hero.weaknesses" placeholder="weaknesses" />
   </div>
+  <div>
+    <label>combat: </label>
+    <input [(ngModel)]="hero.attributes.combat" placeholder="combat" />
+  </div>
+  <div>
+    <label>durability: </label>
+    <input [(ngModel)]="hero.attributes.durability" placeholder="durability" />
+  </div>
+  <div>
+    <label>intelligence: </label>
+    <input [(ngModel)]="hero.attributes.intelligence" placeholder="intelligence" />
+  </div>
+  <div>
+    <label>power: </label>
+    <input [(ngModel)]="hero.attributes.power" placeholder="power" />
+  </div>
+  <div>
+    <label>speed: </label>
+    <input [(ngModel)]="hero.attributes.speed" placeholder="speed" />
+  </div>
+  <div>
+    <label>strength: </label>
+    <input [(ngModel)]="hero.attributes.strength" placeholder="strength" />
+  </div>
   
+
   <button (click)="goBack()">Back</button>
   <button (click)="save()">Save</button>
 </div>
