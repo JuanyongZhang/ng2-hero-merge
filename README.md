@@ -1,4 +1,5 @@
-# Ng2HeroMerge
+# Ng2HeroMerge 
+https://juanyongzhang.github.io/ng2-hero-merge/
 
 This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.21.
 
